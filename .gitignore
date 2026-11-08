@@ -33,3 +33,24 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+.pytest_cache/
+
+# Local application data
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Session and temporary files
+*.pkl
+test_login.py
+
+# Local development configuration
+.env

@@ -1,6 +1,8 @@
-from flask import Flask, jsonify
 
-app = Flask(__name__)
+from securerelease import create_app
+from flask import jsonify
+
+app = create_app()
 
 APP_VERSION = "1.0.0"
 
@@ -8,8 +10,8 @@ APP_VERSION = "1.0.0"
 @app.route("/")
 def home():
     return jsonify({
-        "message": "Welcome to the DevSecOps Platform",
-        "application": "DevSecOps Sample Application",
+        "message": "Welcome to SecureRelease",
+        "application": "SecureRelease DevSecOps Platform",
         "version": APP_VERSION
     })
 
@@ -29,4 +31,4 @@ def version():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="127.0.0.1", port=5000)

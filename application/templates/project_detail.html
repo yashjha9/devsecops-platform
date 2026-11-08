@@ -1,0 +1,116 @@
+
+{% extends "base.html" %}
+
+{% block title %}Project Details | SecureRelease{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="page-title">{{ project.name }}</h2>
+        <p class="page-subtitle">
+            Project security overview and configuration.
+        </p>
+    </div>
+
+    <a href="{{ url_for('web_projects.list_projects') }}"
+       class="btn btn-outline-secondary">
+        Back to Projects
+    </a>
+</div>
+
+<div class="content-panel mb-4">
+
+    <h5 class="fw-bold mb-3">Project Information</h5>
+
+    <div class="row g-3">
+
+        <div class="col-md-6">
+            <label class="text-muted small">Project Name</label>
+            <p class="fw-semibold">{{ project.name }}</p>
+        </div>
+
+        <div class="col-md-6">
+            <label class="text-muted small">Project Slug</label>
+            <p class="fw-semibold">{{ project.slug }}</p>
+        </div>
+
+        <div class="col-md-6">
+            <label class="text-muted small">Repository URL</label>
+            <p>
+                {% if project.repository_url %}
+                    <a href="{{ project.repository_url }}"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        {{ project.repository_url }}
+                    </a>
+                {% else %}
+                    Not configured
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="col-md-6">
+            <label class="text-muted small">Created</label>
+            <p>{{ project.created_at.strftime("%d %B %Y") }}</p>
+        </div>
+
+        <div class="col-12">
+            <label class="text-muted small">Description</label>
+            <p>
+                {{ project.description or "No description provided." }}
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row g-3">
+
+    <div class="col-md-4">
+        <div class="dashboard-card">
+            <h5 class="fw-bold">Vulnerabilities</h5>
+            <p class="text-muted">
+                Review security findings associated with this project.
+            </p>
+            <a href="{{ url_for(
+    'web_vulnerabilities.list_vulnerabilities',
+    project_id=project.id
+) }}" class="btn btn-dark btn-sm">
+    View Vulnerabilities
+</a>
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="dashboard-card">
+            <h5 class="fw-bold">Remediations</h5>
+            <p class="text-muted">
+                Track vulnerability remediation activities.
+            </p>
+            <a href="{{ url_for('web_remediations.list_remediations', project_id=project.id) }}"
+   class="btn btn-outline-primary">
+    Manage Remediations
+</a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="dashboard-card">
+            <h5 class="fw-bold">Deployments</h5>
+            <p class="text-muted">
+                Review risk evaluations and deployment decisions.
+            </p>
+            <a href="{{ url_for('web_deployments.list_deployments', project_id=project.id) }}"
+   class="btn btn-outline-primary">
+    Manage Deployments
+</a>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

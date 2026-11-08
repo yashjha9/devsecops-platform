@@ -1,0 +1,86 @@
+
+{% extends "base.html" %}
+
+{% block title %}Create Project | SecureRelease{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="mb-4">
+            <h2 class="page-title">Create New Project</h2>
+            <p class="page-subtitle">
+                Register an application for security monitoring.
+            </p>
+        </div>
+
+        <div class="content-panel">
+
+            <form method="POST"
+                  action="{{ url_for('web_projects.create_project') }}">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Project Name
+                    </label>
+                    <input
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        maxlength="120"
+                        placeholder="e.g. SecureRelease Application"
+                        required
+                    >
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Description
+                    </label>
+                    <textarea
+                        name="description"
+                        class="form-control"
+                        rows="4"
+                        maxlength="5000"
+                        placeholder="Describe your application and its purpose."
+                    ></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        Git Repository URL
+                    </label>
+                    <input
+                        type="url"
+                        name="repository_url"
+                        class="form-control"
+                        maxlength="500"
+                        placeholder="https://github.com/username/repository"
+                    >
+                    <div class="form-text">
+                        Optional. You can configure the repository later.
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit" class="btn btn-dark">
+                        Create Project
+                    </button>
+
+                    <a href="{{ url_for('web_projects.list_projects') }}"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

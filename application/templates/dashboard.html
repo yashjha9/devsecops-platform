@@ -1,0 +1,152 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard | SecureRelease{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="page-title">Security Dashboard</h2>
+        <p class="page-subtitle">
+            Welcome back, {{ username }}. Here's your security overview.
+        </p>
+    </div>
+
+    <span class="badge text-bg-dark p-2">
+        SecureRelease Platform
+    </span>
+</div>
+
+<!-- Summary cards -->
+<div class="row g-3 mb-4">
+
+    <div class="col-md-6 col-xl-3">
+        <div class="dashboard-card">
+            <h6>Total Projects</h6>
+            <div class="metric-value">{{ total_projects }}</div>
+            <small class="text-muted">Registered projects</small>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="dashboard-card">
+            <h6>Open Vulnerabilities</h6>
+            <div class="metric-value text-danger">
+                {{ open_vulnerabilities }}
+            </div>
+            <small class="text-muted">Require attention</small>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="dashboard-card">
+            <h6>Completed Remediations</h6>
+            <div class="metric-value text-success">
+                {{ completed_remediations }}
+            </div>
+            <small class="text-muted">Marked completed</small>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="dashboard-card">
+            <h6>Total Deployments</h6>
+            <div class="metric-value">
+                {{ total_deployments }}
+            </div>
+            <small class="text-muted">Recorded evaluations</small>
+        </div>
+    </div>
+
+</div>
+
+<!-- Vulnerability severity -->
+<div class="row g-3 mb-4">
+
+    <div class="col-lg-6">
+        <div class="content-panel h-100">
+
+            <h5 class="fw-bold mb-3">Vulnerability Severity</h5>
+
+            {% for severity, count in severity_counts.items() %}
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <span class="badge
+                    {% if severity == 'CRITICAL' %}text-bg-danger
+                    {% elif severity == 'HIGH' %}text-bg-warning
+                    {% elif severity == 'MEDIUM' %}text-bg-info
+                    {% elif severity == 'UNKNOWN' %}text-bg-secondary
+                    {% else %}text-bg-light text-dark{% endif %}">
+                    {{ severity }}
+                </span>
+
+                <strong>{{ count }}</strong>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <!-- Deployment history -->
+    <div class="col-lg-6">
+        <div class="content-panel h-100">
+
+            <h5 class="fw-bold mb-3">Recent Deployment Decisions</h5>
+
+            {% if recent_deployments %}
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>Version</th>
+                            <th>Risk</th>
+                            <th>Decision</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for deployment in recent_deployments %}
+
+                        <tr>
+                            <td>{{ deployment.version }}</td>
+                            <td>{{ deployment.risk_score }}</td>
+                            <td>
+                                <span class="badge
+                                    {% if deployment.decision == 'ALLOW' %}
+                                        text-bg-success
+                                    {% elif deployment.decision == 'BLOCK' %}
+                                        text-bg-danger
+                                    {% else %}
+                                        text-bg-warning
+                                    {% endif %}">
+                                    {{ deployment.decision }}
+                                </span>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+            {% else %}
+
+            <p class="text-muted">
+                No deployment evaluations recorded yet.
+            </p>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

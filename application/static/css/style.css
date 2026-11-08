@@ -1,0 +1,67 @@
+
+/* SecureRelease - Global Styles */
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #212529;
+    min-height: 100vh;
+}
+
+.navbar-brand {
+    letter-spacing: 0.4px;
+}
+
+.nav-link {
+    margin-right: 8px;
+}
+
+.nav-link:hover {
+    color: #ffffff;
+}
+
+.page-title {
+    font-weight: 700;
+    color: #172b4d;
+}
+
+.page-subtitle {
+    color: #6c757d;
+}
+
+.dashboard-card {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 22px;
+    height: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.dashboard-card h6 {
+    color: #6c757d;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #172b4d;
+}
+
+.content-panel {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.table {
+    vertical-align: middle;
+}
+
+footer {
+    margin-top: 30px;
+}
