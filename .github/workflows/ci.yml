@@ -42,3 +42,24 @@ jobs:
       - name: Run Bandit security scan
         working-directory: application
         run: python -m bandit -r securerelease app.py -ll
+
+      - name: Build SecureRelease Docker image
+        run: docker build -t securerelease:ci ./application
+
+      - name: Scan Docker image with Trivy
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: securerelease:ci
+          format: json
+          output: trivy-image-report.json
+          severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+          scanners: vuln
+          exit-code: '0'
+
+      - name: Upload Trivy vulnerability report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: securerelease-trivy-report
+          path: trivy-image-report.json
+          retention-days: 30
