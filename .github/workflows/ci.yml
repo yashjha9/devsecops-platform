@@ -49,6 +49,7 @@ jobs:
       - name: Scan Docker image with Trivy
         uses: aquasecurity/trivy-action@v0.36.0
         with:
+          version: 'v0.69.3'
           image-ref: securerelease:ci
           format: json
           output: trivy-image-report.json
