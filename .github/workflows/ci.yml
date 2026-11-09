@@ -37,7 +37,7 @@ jobs:
         working-directory: application
         env:
           DATABASE_URL: sqlite://
-        run: python -m pytest test_app.py -v
+        run: python -m pytest test_app.py test_scanner_ingestion.py -v
 
       - name: Run Bandit security scan
         working-directory: application

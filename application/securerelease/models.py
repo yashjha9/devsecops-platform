@@ -115,3 +115,39 @@ class AuditLog(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), default=utc_now)
 
     user = db.relationship("User", back_populates="audit_logs")
+
+class ProjectAPIToken(db.Model):
+    __tablename__ = "project_api_tokens"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("users.id"),
+        nullable=False
+    )
+
+    project_id = db.Column(
+        db.Integer,
+        db.ForeignKey("projects.id"),
+        nullable=False
+    )
+
+    token_hash = db.Column(
+        db.String(64),
+        unique=True,
+        nullable=False
+    )
+
+    name = db.Column(db.String(100), nullable=False, default="GitHub Actions")
+
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        default=utc_now,
+        nullable=False
+    )
+
+    revoked_at = db.Column(db.DateTime(timezone=True))
+
+    user = db.relationship("User")
+    project = db.relationship("Project")
