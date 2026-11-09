@@ -81,7 +81,7 @@ jobs:
       - name: Upload report to SecureRelease
         env:
           SECURERELEASE_API_TOKEN: ${{ secrets.SECURERELEASE_API_TOKEN }}
-        shell: pwsh
+        shell: powershell
         run: |
           $headers = @{
             Authorization = "Bearer $env:SECURERELEASE_API_TOKEN"
