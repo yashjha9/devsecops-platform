@@ -64,3 +64,35 @@ jobs:
           name: securerelease-trivy-report
           path: trivy-image-report.json
           retention-days: 30
+
+  ingest-trivy-report:
+    name: Ingest Trivy Report into SecureRelease
+    needs: test-and-scan
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: [self-hosted, Windows, X64]
+
+    steps:
+      - name: Download Trivy report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: securerelease-trivy-report
+          path: trivy-report
+
+      - name: Upload report to SecureRelease
+        env:
+          SECURERELEASE_API_TOKEN: ${{ secrets.SECURERELEASE_API_TOKEN }}
+        shell: pwsh
+        run: |
+          $headers = @{
+            Authorization = "Bearer $env:SECURERELEASE_API_TOKEN"
+          }
+
+          $response = Invoke-RestMethod `
+            -Uri "http://localhost:5003/api/projects/1/scan-reports/trivy" `
+            -Method Post `
+            -Headers $headers `
+            -ContentType "application/json" `
+            -InFile "trivy-report/trivy-image-report.json"
+
+          Write-Host "Trivy report successfully ingested."
+          $response.result | ConvertTo-Json -Depth 5
